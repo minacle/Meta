@@ -222,8 +222,6 @@ internal class _AnyMetaRequest: _MetaRequestProtocol {
             urlRequest.setValue("\(value)", forHTTPHeaderField: "\(key)")
         }
         urlRequest.httpBody = data ?? self.data
-        dump(urlRequest)
-        print(String(data: urlRequest.httpBody ?? Data(), encoding: .utf8)!)
         return urlRequest
     }
 
