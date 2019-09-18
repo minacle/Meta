@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "Meta", targets: ["Meta"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/minacle/Poste", .revision("cd3cae796343fa06290e1d02d7ecf2f57dca9f4c")),
+        .package(url: "https://github.com/minacle/Poste", from: "1.0.0"),
     ],
     targets: [
         .target(name: "Meta", dependencies: ["Poste"]),
