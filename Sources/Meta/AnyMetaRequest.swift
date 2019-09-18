@@ -230,7 +230,7 @@ internal class _AnyMetaRequest: _MetaRequestProtocol {
     private func poste
         (urlRequest: URLRequest,
          qos: DispatchQoS)
-        -> ThrowingRequiredPoste<Response>
+        -> ThrowingNonnullPoste<Response>
     {
         return Poste.async(qos: qos) {
             let dispatchSemaphore = DispatchSemaphore(value: 0)
