@@ -210,7 +210,13 @@ internal class _AnyMetaRequest: _MetaRequestProtocol {
          data: Data?)
         -> URLRequest
     {
-        let url = self.url(queries: self.queries?.merging(queries ?? [:], uniquingKeysWith: {$1}))
+        let url: URL
+        if self.queries == nil {
+            url = self.url(queries: queries)
+        }
+        else {
+            url = self.url(queries: self.queries?.merging(queries ?? [:], uniquingKeysWith: {$1}))
+        }
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData)
         urlRequest.httpMethod = self.method.rawValue
         var combinedHeaders = self.defaultHeaders
