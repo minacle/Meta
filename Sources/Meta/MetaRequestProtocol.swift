@@ -2,20 +2,20 @@ import Foundation
 import Poste
 
 /// Basic variables and methods for requests.
-public protocol APIRequestProtocol {
+public protocol MetaRequestProtocol {
 
     /// A response type that associated of the request type.
-    associatedtype Response: APIResponseProtocol
+    associatedtype Response: MetaResponseProtocol
 
-    typealias Result = APIResult<Response, APIError>
+    typealias Result = MetaResult<Response, MetaError>
 
-    var method: APIMethod {get}
+    var method: MetaMethod {get}
     var url: URL {get}
     var headers: [AnyHashable: Any] {get}
     var queries: [AnyHashable: Any]? {get}
     var data: Data? {get}
 
-    init(method: APIMethod,
+    init(method: MetaMethod,
          url: URL,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
@@ -41,7 +41,7 @@ public protocol APIRequestProtocol {
     ///     Quality of service.
     ///
     /// - Throws:
-    ///   One of case of `APIError`.
+    ///   One of case of `MetaError`.
     ///
     /// - Returns:
     ///   A `Response` of this request.
@@ -79,11 +79,11 @@ public protocol APIRequestProtocol {
         -> VoidPoste
 }
 
-extension APIRequestProtocol {
+extension MetaRequestProtocol {
 
     @inlinable
     public init
-        (method: APIMethod = .get,
+        (method: MetaMethod = .get,
          url: URL,
          headers: [AnyHashable: Any] = [:],
          queries: [AnyHashable: Any]? = nil,
@@ -144,6 +144,6 @@ extension APIRequestProtocol {
     }
 }
 
-internal protocol _APIRequestProtocol: APIRequestProtocol {}
+internal protocol _MetaRequestProtocol: MetaRequestProtocol {}
 
-extension _APIRequestProtocol {}
+extension _MetaRequestProtocol {}

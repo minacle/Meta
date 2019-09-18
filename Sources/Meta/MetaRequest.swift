@@ -1,17 +1,17 @@
 import Foundation
 import Poste
 
-public struct APIRequest<Object>: APIRequestProtocol
+public struct MetaRequest<Object>: MetaRequestProtocol
 where Object: Decodable {
 
-    public typealias Response = APIResponse<Object>
-    public typealias Result = APIResult<Response, APIError>
+    public typealias Response = MetaResponse<Object>
+    public typealias Result = MetaResult<Response, MetaError>
 
-    internal typealias Base = AnyAPIRequest
+    internal typealias Base = AnyMetaRequest
 
     internal let base: Base
 
-    public var method: APIMethod {
+    public var method: MetaMethod {
         return self.base.method
     }
 
@@ -40,7 +40,7 @@ where Object: Decodable {
     }
 
     public init
-        (method: APIMethod,
+        (method: MetaMethod,
          url: URL,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
@@ -59,7 +59,7 @@ where Object: Decodable {
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
-        where Request: APIRequestProtocol
+        where Request: MetaRequestProtocol
     {
         self.base =
             Base(apiRequest as! Base,
@@ -80,7 +80,7 @@ where Object: Decodable {
          data: Data?,
          qos: DispatchQoS)
         throws
-        -> APIResponse<Object>
+        -> MetaResponse<Object>
     {
         let response =
             try self.base.sync(headers: headers,
@@ -110,7 +110,7 @@ where Object: Decodable {
                     completionHandler(.success(try Response(base: response.base)))
                 }
                 catch {
-                    completionHandler(.failure(error as! APIError))
+                    completionHandler(.failure(error as! MetaError))
                 }
             case .failure(let error):
                 completionHandler(.failure(error))
@@ -119,7 +119,7 @@ where Object: Decodable {
     }
 }
 
-extension APIRequest {
+extension MetaRequest {
 
     internal init
         (base: Base.Base)

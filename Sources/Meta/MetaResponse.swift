@@ -1,16 +1,16 @@
 import Foundation
 
-public struct APIResponse<Object>: APIResponseProtocol
+public struct MetaResponse<Object>: MetaResponseProtocol
 where Object: Decodable {
 
-    public typealias Request = APIRequest<Object>
+    public typealias Request = MetaRequest<Object>
 
-    internal typealias Base = AnyAPIResponse
+    internal typealias Base = AnyMetaResponse
 
     internal let base: Base
 
-    public var request: APIRequest<Object> {
-        return APIRequest<Object>(base: self.base.request)
+    public var request: MetaRequest<Object> {
+        return MetaRequest<Object>(base: self.base.request)
     }
 
     public var data: Data? {
@@ -35,12 +35,12 @@ where Object: Decodable {
             self._object = try self.base.jsonDecoder.decode(Object.self, from: data)
         }
         catch {
-            throw APIError.jsonDecoder(error: error as! DecodingError, response: self.base)
+            throw MetaError.jsonDecoder(error: error as! DecodingError, response: self.base)
         }
     }
 }
 
-extension APIResponse {
+extension MetaResponse {
 
     internal init
         (base: Base.Base)

@@ -54,9 +54,9 @@ where Success: Hashable, Failure: Hashable {}
 
 /// An alias for `Result` type.
 ///
-/// Do not try to use `Result` directly instead of `APIResult`. This
+/// Do not try to use `Result` directly instead of `MetaResult`. This
 /// is a reserved type for future.
 ///
 /// - Note:
 ///   This type must be compatible with `Result` type.
-public typealias APIResult = Result
+public typealias MetaResult = Result

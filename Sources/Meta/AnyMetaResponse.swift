@@ -1,10 +1,10 @@
 import Foundation
 
-public struct AnyAPIResponse: APIResponseProtocol {
+public struct AnyMetaResponse: MetaResponseProtocol {
 
-    public typealias Request = AnyAPIRequest
+    public typealias Request = AnyMetaRequest
 
-    internal typealias Base = _AnyAPIResponse
+    internal typealias Base = _AnyMetaResponse
 
     internal let base: Base
 
@@ -41,9 +41,9 @@ public struct AnyAPIResponse: APIResponseProtocol {
     }
 }
 
-internal class _AnyAPIResponse: _APIResponseProtocol {
+internal class _AnyMetaResponse: _MetaResponseProtocol {
 
-    public typealias Request = AnyAPIRequest
+    public typealias Request = AnyMetaRequest
 
     private let _request: Request
     private let _data: Data?
@@ -57,7 +57,7 @@ internal class _AnyAPIResponse: _APIResponseProtocol {
     }
 
     internal required init
-        (_ apiRequest: _AnyAPIResponse.Request,
+        (_ apiRequest: _AnyMetaResponse.Request,
          data: Data?)
         throws
     {

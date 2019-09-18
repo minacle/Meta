@@ -1,21 +1,21 @@
 import Foundation
 import Poste
 
-public struct AnyAPIRequest: APIRequestProtocol {
+public struct AnyMetaRequest: MetaRequestProtocol {
 
     public static let jsonEncoder = JSONEncoder()
     public static let jsonDecoder = JSONDecoder()
 
     public static var headers = [AnyHashable: Any]()
 
-    public typealias Response = AnyAPIResponse
-    public typealias Result = APIResult<Response, APIError>
+    public typealias Response = AnyMetaResponse
+    public typealias Result = MetaResult<Response, MetaError>
 
-    internal typealias Base = _AnyAPIRequest
+    internal typealias Base = _AnyMetaRequest
 
     internal let base: Base
 
-    public var method: APIMethod {
+    public var method: MetaMethod {
         return self.base.method
     }
 
@@ -48,7 +48,7 @@ public struct AnyAPIRequest: APIRequestProtocol {
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
-        where Request: APIRequestProtocol
+        where Request: MetaRequestProtocol
     {
         self.base =
             Base(apiRequest,
@@ -58,7 +58,7 @@ public struct AnyAPIRequest: APIRequestProtocol {
     }
 
     public init
-        (method: APIMethod,
+        (method: MetaMethod,
          url: URL,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
@@ -84,7 +84,7 @@ public struct AnyAPIRequest: APIRequestProtocol {
          data: Data?,
          qos: DispatchQoS)
         throws
-        -> AnyAPIResponse
+        -> AnyMetaResponse
     {
         return
             try self.base.sync(headers: headers,
@@ -108,14 +108,14 @@ public struct AnyAPIRequest: APIRequestProtocol {
     }
 }
 
-internal class _AnyAPIRequest: _APIRequestProtocol {
+internal class _AnyMetaRequest: _MetaRequestProtocol {
 
-    public typealias Response = AnyAPIResponse
-    public typealias Result = APIResult<Response, APIError>
+    public typealias Response = AnyMetaResponse
+    public typealias Result = MetaResult<Response, MetaError>
 
-    private let defaultHeaders = AnyAPIRequest.headers
+    private let defaultHeaders = AnyMetaRequest.headers
 
-    public let method: APIMethod
+    public let method: MetaMethod
     public let url: URL
     public let headers: [AnyHashable: Any]
     public let queries: [AnyHashable: Any]?
@@ -136,7 +136,7 @@ internal class _AnyAPIRequest: _APIRequestProtocol {
     }
 
     public required init
-        (method: APIMethod,
+        (method: MetaMethod,
          url: URL,
          headers: [AnyHashable : Any],
          queries: [AnyHashable : Any]?,
@@ -147,8 +147,8 @@ internal class _AnyAPIRequest: _APIRequestProtocol {
         self.headers = headers
         self.queries = queries
         self.data = data
-        self.jsonEncoder = JSONEncoder(AnyAPIRequest.jsonEncoder)
-        self.jsonDecoder = JSONDecoder(AnyAPIRequest.jsonDecoder)
+        self.jsonEncoder = JSONEncoder(AnyMetaRequest.jsonEncoder)
+        self.jsonDecoder = JSONDecoder(AnyMetaRequest.jsonDecoder)
     }
 
     public required convenience init<Request>
@@ -156,7 +156,7 @@ internal class _AnyAPIRequest: _APIRequestProtocol {
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
-        where Request: APIRequestProtocol
+        where Request: MetaRequestProtocol
     {
         let method = apiRequest.method
         let url = apiRequest.url
@@ -176,7 +176,7 @@ internal class _AnyAPIRequest: _APIRequestProtocol {
          data: Data?,
          qos: DispatchQoS)
         throws
-        -> AnyAPIResponse
+        -> AnyMetaResponse
     {
         let urlRequest = self.urlRequest(headers: headers, queries: queries, data: data)
         let poste = self.poste(urlRequest: urlRequest, qos: qos)
@@ -199,7 +199,7 @@ internal class _AnyAPIRequest: _APIRequestProtocol {
                 completionHandler(.success(try Poste.await(poste)))
             }
             catch {
-                completionHandler(.failure(error as! APIError))
+                completionHandler(.failure(error as! MetaError))
             }
         }
     }
@@ -235,10 +235,10 @@ internal class _AnyAPIRequest: _APIRequestProtocol {
         return Poste.async(qos: qos) {
             let dispatchSemaphore = DispatchSemaphore(value: 0)
             var apiResponse: Response?
-            var error: APIError?
+            var error: MetaError?
             var data: Data?
             let task = URLSession.shared.dataTask(with: urlRequest) {
-                let interface = AnyAPIRequest(base: self)
+                let interface = AnyMetaRequest(base: self)
                 defer {
                     dispatchSemaphore.signal()
                 }

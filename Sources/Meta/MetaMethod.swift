@@ -1,5 +1,5 @@
 /// HTTP method.
-public enum APIMethod: String {
+public enum MetaMethod: String {
 
     case get = "GET"
     case head = "HEAD"
