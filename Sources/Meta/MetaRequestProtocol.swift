@@ -21,10 +21,12 @@ public protocol MetaRequestProtocol {
          queries: [AnyHashable: Any]?,
          data: Data?)
 
-    init(_ apiRequest: Self,
+    init<Request>
+        (_ apiRequest: Request,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
+        where Request: MetaRequestProtocol
 
     /// Send synchonised request.
     ///
@@ -97,11 +99,12 @@ extension MetaRequestProtocol {
     }
 
     @inlinable
-    public init
-        (_ apiRequest: Self,
+    public init<Request>
+        (_ apiRequest: Request,
          headers: [AnyHashable: Any] = [:],
          queries: [AnyHashable: Any]? = nil,
          data: Data? = nil)
+        where Request: MetaRequestProtocol
     {
         self.init(apiRequest,
                   headers: headers,
