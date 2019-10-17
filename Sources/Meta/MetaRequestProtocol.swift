@@ -22,7 +22,7 @@ public protocol MetaRequestProtocol {
          data: Data?)
 
     init<Request>
-        (_ apiRequest: Request,
+        (_ request: Request,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
@@ -100,13 +100,13 @@ extension MetaRequestProtocol {
 
     @inlinable
     public init<Request>
-        (_ apiRequest: Request,
+        (_ request: Request,
          headers: [AnyHashable: Any] = [:],
          queries: [AnyHashable: Any]? = nil,
          data: Data? = nil)
         where Request: MetaRequestProtocol
     {
-        self.init(apiRequest,
+        self.init(request,
                   headers: headers,
                   queries: queries,
                   data: data)

@@ -55,14 +55,14 @@ where Object: Decodable {
     }
 
     public init<Request>
-        (_ apiRequest: Request,
+        (_ request: Request,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
         where Request: MetaRequestProtocol
     {
         self.base =
-            Base(apiRequest as! Base,
+            Base(request as! Base,
                  headers: headers,
                  queries: queries,
                  data: data)

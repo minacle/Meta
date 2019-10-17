@@ -44,14 +44,14 @@ public struct AnyMetaRequest: MetaRequestProtocol {
     }
 
     public init<Request>
-        (_ apiRequest: Request,
+        (_ request: Request,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
         where Request: MetaRequestProtocol
     {
         self.base =
-            Base(apiRequest,
+            Base(request,
                  headers: headers,
                  queries: queries,
                  data: data)
@@ -152,17 +152,17 @@ internal class _AnyMetaRequest: _MetaRequestProtocol {
     }
 
     public required convenience init<Request>
-        (_ apiRequest: Request,
+        (_ request: Request,
          headers: [AnyHashable: Any],
          queries: [AnyHashable: Any]?,
          data: Data?)
         where Request: MetaRequestProtocol
     {
-        let method = apiRequest.method
-        let url = apiRequest.url
-        let headers = apiRequest.headers.merging(headers, uniquingKeysWith: {$1})
-        let queries = queries ?? apiRequest.queries
-        let data = apiRequest.data
+        let method = request.method
+        let url = request.url
+        let headers = request.headers.merging(headers, uniquingKeysWith: {$1})
+        let queries = queries ?? request.queries
+        let data = request.data
         self.init(method: method,
                   url: url,
                   headers: headers,
@@ -238,7 +238,7 @@ internal class _AnyMetaRequest: _MetaRequestProtocol {
     {
         return Poste.async(qos: qos) {
             let dispatchSemaphore = DispatchSemaphore(value: 0)
-            var apiResponse: Response?
+            var response: Response?
             var error: MetaError?
             var data: Data?
             let task = URLSession.shared.dataTask(with: urlRequest) {
@@ -255,14 +255,14 @@ internal class _AnyMetaRequest: _MetaRequestProtocol {
                         return error = .httpURLResponse(statusCode: httpURLResponse.statusCode, response: try! Response(interface, data: data))
                     }
                 }
-                apiResponse = try! Response(interface, data: data)
+                response = try! Response(interface, data: data)
             }
             task.resume()
             dispatchSemaphore.wait()
             if let error = error {
                 throw error
             }
-            return apiResponse!
+            return response!
         }
     }
 }

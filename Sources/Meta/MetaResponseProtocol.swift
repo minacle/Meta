@@ -13,7 +13,7 @@ extension MetaResponseProtocol {}
 
 internal protocol _MetaResponseProtocol: MetaResponseProtocol {
 
-    init(_ apiRequest: Request, data: Data?) throws
+    init(_ request: Request, data: Data?) throws
 }
 
 extension _MetaResponseProtocol {}

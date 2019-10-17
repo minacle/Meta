@@ -25,12 +25,12 @@ public struct AnyMetaResponse: MetaResponseProtocol {
     }
 
     internal init
-        (_ apiRequest: Request,
+        (_ request: Request,
          data: Data? = nil)
         throws
     {
         self.base =
-            try! Base(apiRequest,
+            try! Base(request,
                       data: data)
     }
 
@@ -57,11 +57,11 @@ internal class _AnyMetaResponse: _MetaResponseProtocol {
     }
 
     internal required init
-        (_ apiRequest: _AnyMetaResponse.Request,
+        (_ request: _AnyMetaResponse.Request,
          data: Data?)
         throws
     {
-        self._request = apiRequest
+        self._request = request
         self._data = data
     }
 }
