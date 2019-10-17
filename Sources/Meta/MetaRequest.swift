@@ -62,7 +62,7 @@ where Object: Decodable {
         where Request: MetaRequestProtocol
     {
         self.base =
-            Base(request as! Base,
+            Base(request,
                  headers: headers,
                  queries: queries,
                  data: data)
